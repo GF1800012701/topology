@@ -22,7 +22,10 @@
       "@topology/sequence-diagram": ["../../packages/sequence-diagram"],
       "@topology/chart-diagram": ["../../packages/chart-diagram"],
       "@topology/layout": ["../../packages/layout"]
-    }
+    },
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true
+
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
