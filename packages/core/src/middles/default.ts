@@ -72,6 +72,8 @@ import { peopleIconRect, peopleTextRect } from './nodes/people.rect';
 import { rectangleIconRect, rectangleTextRect } from './nodes/rectangle.rect';
 import { graffiti } from './nodes/graffiti';
 import { graffitiAnchors } from './nodes/graffiti.anchor';
+import { greenInterfaceAnchors } from './nodes/greenInterface.anchor';
+import { yellowInterfaceAnchors } from './nodes/yellowInterface.anchor';
 import { mindNodeAnchors } from './nodes/mindNode.anchor';
 import { mindLine } from './nodes/mindLine';
 import { mindLineAnchors } from './nodes/mindLine.anchor';
@@ -104,9 +106,20 @@ function init() {
   drawNodeFns.graffiti = graffiti;
   anchorsFns.graffiti = graffitiAnchors;
 
+  // yellow
+  anchorsFns.yellowInterface = yellowInterfaceAnchors;
+  drawNodeFns.yellowInterface = rectangle;
+  iconRectFns.yellowInterface = rectangleIconRect;
+  textRectFns.yellowInterface = rectangleTextRect;
+
+  // green
+  anchorsFns.greenInterface = greenInterfaceAnchors;
+  drawNodeFns.greenInterface = rectangle;
+  iconRectFns.greenInterface = rectangleIconRect;
+  textRectFns.greenInterface = rectangleTextRect;
+
   // lines
   drawNodeFns.lines = lines;
-
   // Square
   drawNodeFns.square = rectangle;
 

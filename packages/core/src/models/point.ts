@@ -11,6 +11,7 @@ export class Point {
   fillStyle: string;
   anchorIndex: number;
   autoAnchor: boolean;
+  kind: number;
 
   hidden: boolean;
   mode: AnchorMode;
@@ -22,13 +23,16 @@ export class Point {
     anchorIndex?: number,
     id?: number | string,
     hidden?: boolean,
-    autoAnchor?: boolean
+    autoAnchor?: boolean,
+    kind : number = 0
   ) {
     this.direction = direction;
     this.anchorIndex = anchorIndex;
     this.id = id;
     this.hidden = hidden;
     this.autoAnchor = autoAnchor;
+    this.kind = kind;
+    this.setKind(kind);
   }
 
   floor() {
@@ -43,6 +47,7 @@ export class Point {
 
   clone(): Point {
     const pt = new Point(this.x, this.y, this.direction, this.anchorIndex, this.id, this.hidden, this.autoAnchor);
+    pt.setKind(this.kind);
     if (this.data) {
       pt.data = this.data;
     }
@@ -71,6 +76,15 @@ export class Point {
 
   isSameAs(pt: Point) {
     return this.anchorIndex === pt.anchorIndex && this.direction === pt.direction && this.id === pt.id;
+  }
+
+  colorArray = ["#fff", '#ffff00', '#00ff00'];
+  setKind(kind: number) {
+    this.kind = kind;
+    console.log(kind);
+    if(this.kind != 0) {
+      this.fillStyle = this.colorArray[this.kind];
+    }
   }
 }
 

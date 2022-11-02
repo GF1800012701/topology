@@ -48,7 +48,7 @@ export class Line extends Pen {
       controlPoints: [],
       fromArrowSize: 5,
       toArrowSize: 5,
-      borderWidth: 0,
+      borderWidth: 1,
       borderColor: '#000000',
       animateColor: '',
       animateSpan: 1,
@@ -96,17 +96,44 @@ export class Line extends Pen {
       });
     }
   }
+  testArrowTypes = [
+    'triangle',
+    'diamond',
+    'circle'
+  ];
 
   setFrom(from: Point, fromArrow: string = '') {
     this.from = from;
-    this.fromArrow = fromArrow;
+    this.fromArrow = this.testArrowTypes[from.kind];
     this.textRect = undefined;
+    this.setWarning();
   }
 
   setTo(to: Point, toArrow: string = 'triangleSolid') {
     this.to = to;
-    this.toArrow = toArrow;
+    this.toArrow = this.testArrowTypes[to.kind];
     this.textRect = undefined;
+    this.setWarning();
+  }
+
+  colorArray = ["#fff", '#ffff00', '#00ff00'];
+  setWarning() {
+    if(this.to.kind != 0 && this.from.kind != 0){
+      if(this.to.kind != this.from.kind){
+        this.borderColor = '#ff0000';
+        //this.borderWidth = 1;        
+      }
+      else {
+        this.borderColor = this.colorArray[this.to.kind];
+        //this.borderWidth = 1;
+      }
+
+    }
+    else {
+      this.borderColor = '#0000ff';
+      //this.borderWidth = 1;
+    }
+    
   }
 
   calcControlPoints(force?: boolean) {

@@ -231,6 +231,7 @@ export class AnimateLayer extends Layer {
           line.to = item.to;
           line.controlPoints = item.controlPoints;
           line.length = line.getLen();
+          line.setWarning();
         }
       }
     });

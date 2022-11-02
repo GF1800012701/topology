@@ -81,8 +81,8 @@ export class HoverLayer extends Layer {
           }
           ctx.beginPath();
           ctx.arc(anchor.x, anchor.y, anchor.radius || this.options.anchorRadius, 0, Math.PI * 2);
-          ctx.strokeStyle = anchor.strokeStyle || this.options.hoverColor;
-          ctx.fillStyle = anchor.fillStyle || this.options.anchorFillStyle;
+          ctx.strokeStyle = anchor.strokeStyle ? anchor.strokeStyle : this.options.hoverColor;
+          ctx.fillStyle = anchor.fillStyle ? anchor.fillStyle : this.options.anchorFillStyle;
           ctx.fill();
           ctx.stroke();
         }

@@ -120,14 +120,14 @@ export class Topology {
     activeNode: Node;
     lineControlPoint: Point;
   } = {
-    type: MoveInType.None,
-    activeAnchorIndex: 0,
-    hoverAnchorIndex: 0,
-    hoverNode: undefined,
-    hoverLine: undefined,
-    activeNode: undefined,
-    lineControlPoint: undefined,
-  };
+      type: MoveInType.None,
+      activeAnchorIndex: 0,
+      hoverAnchorIndex: 0,
+      hoverNode: undefined,
+      hoverLine: undefined,
+      activeNode: undefined,
+      lineControlPoint: undefined,
+    };
   canvasPos?: DOMRect;
 
   needCache = false;
@@ -325,11 +325,11 @@ export class Topology {
         this.touchStart = Date.now();
         const pos = new Point(
           event.changedTouches[0].pageX -
-            window.scrollX -
-            (this.canvasPos.left || this.canvasPos.x),
+          window.scrollX -
+          (this.canvasPos.left || this.canvasPos.x),
           event.changedTouches[0].pageY -
-            window.scrollY -
-            (this.canvasPos.top || this.canvasPos.y)
+          window.scrollY -
+          (this.canvasPos.top || this.canvasPos.y)
         );
 
         if (event.touches.length > 1) {
@@ -386,10 +386,10 @@ export class Topology {
                 touches[0].pageX - touches[1].pageX,
                 touches[0].pageY - touches[1].pageY
               ) /
-                Math.hypot(
-                  this.touches[0].pageX - this.touches[1].pageX,
-                  this.touches[0].pageY - this.touches[1].pageY
-                );
+              Math.hypot(
+                this.touches[0].pageX - this.touches[1].pageX,
+                this.touches[0].pageY - this.touches[1].pageY
+              );
             event.preventDefault();
             this.scaleTo(
               scale * this.touchScale,
@@ -399,11 +399,11 @@ export class Topology {
           } else if (len === 3) {
             const pos = new Point(
               touches[0].pageX -
-                window.scrollX -
-                (this.canvasPos.left || this.canvasPos.x),
+              window.scrollX -
+              (this.canvasPos.left || this.canvasPos.x),
               touches[0].pageY -
-                window.scrollY -
-                (this.canvasPos.top || this.canvasPos.y)
+              window.scrollY -
+              (this.canvasPos.top || this.canvasPos.y)
             );
 
             this.translate(pos.x, pos.y, true);
@@ -416,11 +416,11 @@ export class Topology {
 
         const pos = new Point(
           event.touches[0].pageX -
-            window.scrollX -
-            (this.canvasPos.left || this.canvasPos.x),
+          window.scrollX -
+          (this.canvasPos.left || this.canvasPos.x),
           event.touches[0].pageY -
-            window.scrollY -
-            (this.canvasPos.top || this.canvasPos.y)
+          window.scrollY -
+          (this.canvasPos.top || this.canvasPos.y)
         );
 
         this.onMouseMove({
@@ -648,11 +648,11 @@ export class Topology {
   private ontouchend(event: TouchEvent) {
     const pos = new Point(
       event.changedTouches[0].pageX -
-        window.scrollX -
-        (this.canvasPos.left || this.canvasPos.x),
+      window.scrollX -
+      (this.canvasPos.left || this.canvasPos.x),
       event.changedTouches[0].pageY -
-        window.scrollY -
-        (this.canvasPos.top || this.canvasPos.y)
+      window.scrollY -
+      (this.canvasPos.top || this.canvasPos.y)
     );
     const dragRect = this.hoverLayer.dragRect;
     this.onmouseup({
@@ -1467,7 +1467,7 @@ export class Topology {
           ) {
             drawLineFns[this.moveIn.hoverLine.name].dockControlPointFn(
               this.moveIn.hoverLine.controlPoints[
-                this.moveIn.lineControlPoint.id
+              this.moveIn.lineControlPoint.id
               ],
               this.moveIn.hoverLine
             );
@@ -1561,32 +1561,22 @@ export class Topology {
 
         break;
       case MoveInType.HoverAnchors:
+        var old_p = this.moveIn.hoverNode.rotatedAnchors[
+          this.moveIn.hoverAnchorIndex
+        ];
+        
+        var new_p = old_p.clone();
         this.hoverLayer.line = this.addLine({
           name: this.data.lineName,
-          from: new Point(
-            this.moveIn.hoverNode.rotatedAnchors[
-              this.moveIn.hoverAnchorIndex
-            ].x,
-            this.moveIn.hoverNode.rotatedAnchors[
-              this.moveIn.hoverAnchorIndex
-            ].y,
-            this.moveIn.hoverNode.rotatedAnchors[
-              this.moveIn.hoverAnchorIndex
-            ].direction,
-            this.moveIn.hoverAnchorIndex,
-            this.moveIn.hoverNode.id
-          ),
+          from: old_p,
           fromArrow: this.data.fromArrow,
-          to: new Point(
-            this.moveIn.hoverNode.rotatedAnchors[
-              this.moveIn.hoverAnchorIndex
-            ].x,
-            this.moveIn.hoverNode.rotatedAnchors[this.moveIn.hoverAnchorIndex].y
-          ),
+          to: new_p,
           toArrow: this.data.toArrow,
           strokeStyle: this.options.color,
           lineWidth: this.data.lineWidth,
         });
+        this.hoverLayer.line.setFrom(old_p);
+        this.hoverLayer.line.setTo(new_p);
         this.dispatch('anchor', {
           anchor:
             this.moveIn.hoverNode.rotatedAnchors[this.moveIn.hoverAnchorIndex],
@@ -1875,7 +1865,7 @@ export class Topology {
           ) {
             previous =
               this.moveIn.hoverLine.children[
-                this.moveIn.hoverLine.children.length - 1
+              this.moveIn.hoverLine.children.length - 1
               ];
           }
           if (!previous) {
@@ -2447,6 +2437,7 @@ export class Topology {
             point.direction = pen.rotatedAnchors[i].direction;
             point.x = pen.rotatedAnchors[i].x;
             point.y = pen.rotatedAnchors[i].y;
+            point.setKind(pen.rotatedAnchors[i].kind);
             this.hoverLayer.dockAnchor = pen.rotatedAnchors[i];
             break;
           }
@@ -3072,14 +3063,20 @@ export class Topology {
         pen.from.y + offset,
         pen.from.direction,
         pen.from.anchorIndex,
-        idMaps[pen.from.id]
+        idMaps[pen.from.id],
+        false,
+        false,
+        pen.from.kind
       );
       pen.to = new Point(
         pen.to.x + offset,
         pen.to.y + offset,
         pen.to.direction,
         pen.to.anchorIndex,
-        idMaps[pen.to.id]
+        idMaps[pen.to.id],
+        false,
+        false,
+        pen.from.kind        
       );
       const controlPoints = [];
       for (const pt of pen.controlPoints) {

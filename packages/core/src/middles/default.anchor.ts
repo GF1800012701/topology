@@ -7,4 +7,7 @@ export function defaultAnchors(node: Node) {
   node.anchors.push(new Point(node.rect.x + node.rect.width / 2, node.rect.y, Direction.Up));
   node.anchors.push(new Point(node.rect.x + node.rect.width, node.rect.y + node.rect.height / 2, Direction.Right));
   node.anchors.push(new Point(node.rect.x + node.rect.width / 2, node.rect.y + node.rect.height, Direction.Bottom));
+  for (let p of node.anchors) {
+    p.setKind(0);
+}
 }
